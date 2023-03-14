@@ -124,6 +124,7 @@ async def live():  # 定时推送直播间状态
     Name = model.ReadName(mid)
     status, live_status, content = await data_source.LiveRoomInfo(mid)
     if status != 0:
+        live_index += 1
         logger.error(f'{Name}直播状态更新失败')
         return
     if LiveStatus == live_status:
@@ -180,13 +181,16 @@ async def dynamic():  # 定时推送最新用户动态
     Name = model.ReadName(mid)
     status, NewDynamicTime, content = await data_source.LatestDynamicInfo(mid, LastDynamicTime)
     if status != 0:
+        dynamic_index += 1
         logger.error(f'{Name}动态查询失败')
         return
     if NewDynamicTime == '':
         dynamic_index += 1
         return
     if content == '':
+        dynamic_index += 1
         model.ResetDynamicTime(mid, NewDynamicTime)
+        return
     logger.info(f'检测到 {Name} 动态更新')
     model.ResetDynamicTime(mid, NewDynamicTime)
     Groups = model.ReadGroup(mid)
