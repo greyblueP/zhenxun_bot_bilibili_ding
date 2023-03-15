@@ -43,10 +43,7 @@ def ReadDynamicMid():  # 读取动态mid
     data = ReadList()
     FollowList = []
     for mid in data:
-        for group in data[mid]:
-            if group != 'info' and data[mid][group][0] == True:
-                FollowList.append(mid)
-                break
+        FollowList.append(mid)
     return FollowList
 
 
